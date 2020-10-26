@@ -1,4 +1,4 @@
-from vtk import *
+import vtk
 import numpy as np
 
 eleva=np.loadtxt("elevation_0.4.txt")

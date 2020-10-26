@@ -6,13 +6,13 @@ def read_posi(file_name):
     
     fig = plt.figure()
     ax = fig.gca(projection='3d')
-    ax.scatter(posi[:,0],posi[:,1],posi[:,2])
+    ax.scatter(posi[:,0],posi[:,1],posi[:,2],marker=".")
 
     ax.set_xlabel('X (m)')
     ax.set_ylabel('Y (m)')
     ax.set_zlabel('Z (m)')
+    
+    plt.savefig("figures/geo.png",dpi=300)
     plt.show()
-
-
 if __name__ == "__main__":
     read_posi('/home/hui/aster_test/roxelaqua/asterTest/pythonOutput/posi_7.56.txt')

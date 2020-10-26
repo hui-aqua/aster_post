@@ -1,4 +1,4 @@
-from vtk import *
+import vtk
 import numpy as np
 import os
 
@@ -66,5 +66,5 @@ def out_put(dt,number_of_file,input_floder,output_floder=False):
 
 if __name__ == "__main__":
     dt=0.02
-    k=300
+    k=100
     out_put(dt,k,'/home/hui/aster_test/roxelaqua/asterTest/pythonOutput','/home/hui/aster_test/roxelaqua/asterTest/sea')
