@@ -1,10 +1,10 @@
 import numpy as np
 import sys
 import ast
-
+import os
 
 def find_tri(name_of_meshinfo):
-    """ 
+    """
     Function for creating the triangle based on the elements.\n
     """
     sys.path.append(name_of_meshinfo)
@@ -18,12 +18,12 @@ def find_tri(name_of_meshinfo):
             elem_for_volume.append((np.array(item)-1).tolist()[0:3])
             elem_for_volume.append((np.array(item)-1).tolist()[1:4])
     print("intial volume is " +
-          str(cal_volum1(parameters.meshinfo['Nodes_netting'], elem_for_volume)))
+          str(method1(parameters.meshinfo['Nodes_netting'], elem_for_volume)))
     return elem_for_volume
 
 
 
-def cal_volum1(list_of_nodes, elem):
+def method1(list_of_nodes, elem):
     """A function to calculate volume of a cage based on scalar triple product method
 
     Args:
@@ -43,7 +43,7 @@ def cal_volum1(list_of_nodes, elem):
     return volume
 
 
-def cal_volum2(list_of_nodes, elem):
+def method2(list_of_nodes, elem):
     """A function to calculate volume of a cage based on divergence method
 
     Args:
@@ -72,8 +72,25 @@ def cal_volum2(list_of_nodes, elem):
 
 
 if __name__ == "__main__":
-    elem_for_volume = find_tri('/home/hui/aster_test/roxelaqua/asterTest/asterinput')
-    posi = np.loadtxt('/home/hui/aster_test/roxelaqua/asterTest/pythonOutput/posi_0.0.txt')
+    print(os.getcwd())
+    # path_to_result='E:\\UbuntuFiles\\roxelaqua\\U0.4\\asterinput'
+    path_to_case='.\\U0.7'
+    # path_to_result='.\\U0.4\\asterinput'
+    elem111=find_tri(os.path.join(path_to_case,'asterinput'))
+    dt=0.02
+    tend=100
+    t=[]
+    volume=[]
+    for k in range(int(tend/dt)):
+        # posi_files='E:\\UbuntuFiles\\roxelaqua\\U0.4\\pythonOutput\\posi_'+str(i)+'.0.txt'
+        posi_files= os.path.join(os.path.join(path_to_case,'pythonOutput'),'posi_'+str(round((k)*dt,3))+'.txt')
+        posi=np.loadtxt(posi_files)
+        t.append(round((k)*dt,3))
+        volume.append(method1(posi,elem111))
+        print(round((k)*dt,3))
 
-    print(cal_volum1(posi, elem_for_volume))
-    print(cal_volum2(posi, elem_for_volume))
+    np.savez(os.path.join(path_to_case,'result_volume2'),time=t,volume=volume)
+    print(np.mean(np.array(volume)))
+    print(np.max(np.array(volume)))
+    print(np.min(np.array(volume)))
+    print(np.std(np.array(volume)))
