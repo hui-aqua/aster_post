@@ -23,19 +23,25 @@ def read_reaction_file(floder):
             'force':np.array(force),
             'torque':np.array(torqu)
             }
+    print('mean force is '+str(np.mean(result['force'],axis=0)))
+    print('std force is '+str(np.std(result['force'],axis=0)))
+    print('max force is '+str(np.max(result['force'],axis=0)))
+    print('min force is '+str(np.min(result['force'],axis=0)))
+    print('range force is '+str(np.ptp(result['force'],axis=0)))
+
     return result
 
-def plot_time_history(data):
-    plt.figure()
-    plt.plot(data['time'],-data['force'][:,0],label='Fx')
-    plt.plot(data['time'],-data['force'][:,1],label='Fy')
-    plt.plot(data['time'],-data['force'][:,2],label='Fz')   
-    plt.legend()
-    # plt.ylim(-50000,50000)
 
-    plt.show()     
 
 if __name__ == "__main__":
-    k=read_reaction_file('/home/hui/aster_test/roxelaqua/asterTest/asteroutput_10s')
-    plot_time_history(k)
-    
+    print(os.getcwd())
+    # path_to_result='E:\\UbuntuFiles\\roxelaqua\\U0.4\\asterinput'
+    path_to_case='.\\U0.7'
+    resu=read_reaction_file(os.path.join(path_to_case,'asteroutput'))
+    np.savez(os.path.join(path_to_case,'result_force'),time=resu['time'],
+                                                        fx=resu['force'][:,0],
+                                                        fy=resu['force'][:,1],
+                                                        fz=resu['force'][:,2],
+                                                        mx=resu['torque'][:,0],
+                                                        my=resu['torque'][:,1],
+                                                        mz=resu['torque'][:,2],)

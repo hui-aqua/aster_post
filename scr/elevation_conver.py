@@ -18,11 +18,11 @@ def out_put(dt,number_of_file,input_floder,output_floder=False):
         for j in range(len(eleva)-10):
             for i in range(3):
                 one_tri.GetPointIds().SetId(i, j*2+i)
-            Triangles.InsertNextCell(one_tri)  
+            Triangles.InsertNextCell(one_tri)
             for i in range(2):
                 one_tri.GetPointIds().SetId(i, (j+1)*2+i)
             one_tri.GetPointIds().SetId(2, (j+1)*2-1)
-            Triangles.InsertNextCell(one_tri)  
+            Triangles.InsertNextCell(one_tri)
 
         # sea floor
         bound=200
@@ -55,9 +55,9 @@ def out_put(dt,number_of_file,input_floder,output_floder=False):
 
         writer = vtk.vtkXMLPolyDataWriter();
         if output_floder is not False:
-            writer.SetFileName(os.path.join(output_floder,"sea_"+str(round((k)*dt,3))+".vtp"))
+            writer.SetFileName(os.path.join(output_floder,'sea_'+'{:08.2f}'.format(k*dt)+'.vtp'))
         else:
-            writer.SetFileName("sea_"+str(round((k)*dt,3))+".vtp");
+            writer.SetFileName('sea_'+'{:08d.2f}'.format(k*dt)+'.vtp');
         if vtk.VTK_MAJOR_VERSION <= 5:
             writer.SetInput(out_data)
         else:
@@ -65,6 +65,6 @@ def out_put(dt,number_of_file,input_floder,output_floder=False):
         writer.Write()
 
 if __name__ == "__main__":
-    dt=0.02
-    k=100
-    out_put(dt,k,'/home/hui/aster_test/roxelaqua/asterTest/pythonOutput','/home/hui/aster_test/roxelaqua/asterTest/sea')
+    dt=0.01
+    duration=100
+    out_put(dt,int(duration/dt),'E:\\UbuntuFiles\\roxelaqua\\U0.4\\pythonOutput','E:\\UbuntuFiles\\roxelaqua\\U0.4\\sea2')
